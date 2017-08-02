@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7 -u
+#!/usr/bin/env python
 
 # ----------------------------------------------------------------------#
 # Note from Jeltje van Baren, 2015: 
