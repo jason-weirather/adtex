@@ -232,7 +232,7 @@ def analyseCNV(params, ratio_data, outdir, tmpdir,  chroms):
                    params.bafin, params.baf, params.plot, chroms], stdout=o)
     else:
         # if we DO want to estimate ploidy, run CNV three times, once for each ploidy and output files as temporaries
-	# in tmpdir
+        # in tmpdir
         procs = []
         for ploidy in ['2', '3', '4']:
             outfile = os.path.join(tmpdir, "cnv.result" + ploidy)
@@ -285,17 +285,17 @@ class cent(object):
     """centromere objects by chromosome"""
     def __init__(self, line):
         [id, start, end] = line.split("\t")
-	self.name = id
+        self.name = id
         self.p = int(start)
         self.q = int(end)
 
 def getChrom(id, centList, cur):
     """get split chromosome IDs"""
     if cur and id == cur.name:
-	return cur
+        return cur
     for i in centList:
-	if id == i.name:
-	    return i
+        if id == i.name:
+            return i
     return False
 
 def doCBS(centro, tmpdir, infile, outfile, sampleId):
@@ -318,22 +318,22 @@ def doCBS(centro, tmpdir, infile, outfile, sampleId):
         for line in f:
             fields = line.split("\t")
             if fields[0] == 'chr':
-	        o.write(line)
-	        continue
+                o.write(line)
+                continue
             id = fields[0]
             start = int(fields[1])
             end = int(fields[2])
             curchrom = getChrom(id, centros, curchrom)
             # centromere free chromosomes
             if not curchrom:
-	        o.write(line)
+                o.write(line)
             # print only if segment does not overlap centromere
             elif end < curchrom.p:
-        	fields[0] = ('.').join([fields[0], 'p'])
-        	o.write(("\t").join(fields))
+                fields[0] = ('.').join([fields[0], 'p'])
+                o.write(("\t").join(fields))
             elif start > curchrom.q:
-        	fields[0] = ('.').join([fields[0], 'q'])
-        	o.write(("\t").join(fields))
+                fields[0] = ('.').join([fields[0], 'q'])
+                o.write(("\t").join(fields))
     # run CBS
     rScriptName = os.path.join(scriptPath,"basicDNAcopy.R")
     cbs = subprocess.check_output(['Rscript', rScriptName, splitfile, "2.5", sampleId])
@@ -407,10 +407,10 @@ def main():
 
         print >>sys.stderr,  "Estimating base ploidy..."
         estimatePloidy(tmpdir, workdir, snpSegfile)
-    	
+    
     if options.plot == "True":
         #Runs plot_results.R, which expects a file named cnv.results in the input directory
-	#Creates one plot per chromosome.
+        #Creates one plot per chromosome.
 
         rScriptName = os.path.join(scriptPath,"plot_results.R")
         subprocess.check_call(['Rscript', rScriptName, workdir, chromstring])
@@ -420,7 +420,7 @@ def main():
     cnvfile = os.path.join(workdir, 'cnv.result')
     assert os.path.exists(cnvfile)
     if(bafIn == "True"):
-	print >>sys.stderr,  "Predicting Zygosity states"
+        print >>sys.stderr,  "Predicting Zygosity states"
         zygosity(options, workdir, cnvfile, chromstring) 
 
     # This is an addition to the original ADTEx code. In cnv_analyse.R, DNAcopy is
@@ -435,11 +435,11 @@ def main():
            print f.read()
         shutil.rmtree(workdir)
     else:
-    # Delete temporary directory	
+    # Delete temporary directory
         if not options.keeptemp:
             shutil.rmtree(tmpdir)
     subprocess.call("date",shell=True)
-	
+
 if __name__ == "__main__":
     main()
 

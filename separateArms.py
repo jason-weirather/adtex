@@ -10,16 +10,16 @@ class cent(object):
     """centromere objects by chromosome"""
     def __init__(self, line):
         [id, start, end] = line.split("\t")
-	self.name = id
+        self.name = id
         self.p = int(start)
         self.q = int(end)
 
 def getChrom(id, centList, cur):
     if cur and id == cur.name:
-	return cur
+        return cur
     for i in centList:
-	if id == i.name:
-	    return i
+        if id == i.name:
+            return i
     return False
 
 if len(sys.argv)==1:
@@ -46,20 +46,20 @@ for line in f:
     line = line.strip()
     fields = line.split("\t")
     if fields[0] == 'chrom':
-	print line
-	continue
+        print line
+        continue
     id = fields[0]
     start = int(fields[1])
     end = int(fields[2])
     curchrom = getChrom(id, centros, curchrom)
     # centromere free chromosomes
     if not curchrom:
-	print line
+         print line
     # print only if segment does not overlap centromere
     elif end < curchrom.p:
-	fields[0] = ('.').join([fields[0], 'p'])
-	print ("\t").join(fields)
+        fields[0] = ('.').join([fields[0], 'p'])
+         print ("\t").join(fields)
     elif start > curchrom.q:
-	fields[0] = ('.').join([fields[0], 'q'])
-	print ("\t").join(fields)
+        fields[0] = ('.').join([fields[0], 'q'])
+        print ("\t").join(fields)
 f.close
