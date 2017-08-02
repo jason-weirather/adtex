@@ -145,7 +145,8 @@ if(bafin){
     path<-result$cnv[f]
     obs<-result$rationormalized_after_smoothing[f]
     changes<-which(path[-length(path)]!=path[-1])+1
-    if(length(changes)>10 & length(table(path))<4 & sum(path!=ploidy)>100){
+    if(length(changes)>10 & length(table(path))<4 & sum(path!=ploidy)>100 & length(baf$mirrored_BAF[baf$chrom==i]) > 0){
+      # add a check for features that will make for a valid CNA object
       CNA.object<-CNA(baf$mirrored_BAF[baf$chrom==i],baf$chrom[baf$chrom==i],
                       baf$SNP_loc[baf$chrom==i],
                       data.type="logratio",sampleid="tumor")
